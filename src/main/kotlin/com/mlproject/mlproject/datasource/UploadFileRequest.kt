@@ -1,5 +1,5 @@
 package com.mlproject.mlproject.datasource
 
-import org.springframework.web.multipart.MultipartFile
+import weka.core.converters.ConverterUtils
 
-class UploadFileRequest(val file: MultipartFile, val sessionId: Long, val isTraining: Boolean)
+class UploadFileRequest(val dataSource: ConverterUtils.DataSource, val sessionId: Long, val isTraining: Boolean)

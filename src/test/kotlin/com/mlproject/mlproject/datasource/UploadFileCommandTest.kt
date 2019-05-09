@@ -1,31 +1,46 @@
 package com.mlproject.mlproject.datasource
 
-import com.mlproject.mlproject.storageservice.FileService
+import com.mlproject.mlproject.general.SessionManager
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.mock.web.MockMultipartFile
-import org.springframework.web.multipart.MultipartFile
+import weka.core.converters.ConverterUtils
+import java.io.InputStream
 
 @SpringBootTest
 class UploadFileCommandTest {
 
-    @Mock
-    lateinit var fileService: FileService
-    val test = javaClass.getResource("iris.arff")
-    val test2 = javaClass.getResourceAsStream("iris.arff")
-    //val uploadFile = MockMultipartFile("iris", javaClass.getResourceStream("iris.arff"))
+    lateinit var firstFileRequest: UploadFileRequest
 
     @BeforeEach
-    fun setup(){
-        val vv = 1+1
+    fun setup() {
+        SessionManager.sessionMap.clear()
+        firstFileRequest = createUploadFileRequest(0)
     }
 
     @Test
     fun shouldCreateNewSessionWhenNonePreviouslyExists() {
-        assertEquals(1, 1)
+        assertEquals(SessionManager.sessionMap.size, 0)
+
+        executeUploadFile(firstFileRequest)
+
+        assertEquals(SessionManager.sessionMap.size, 1)
+    }
+
+    @Test
+    fun shouldFetchPreviouslyCreatedSession() {
+        val uploadFileResponse = executeUploadFile(firstFileRequest)
+        assertEquals(SessionManager.sessionMap.size, 1)
+
+        val secondRequest = createUploadFileRequest(uploadFileResponse.sessionId)
+        executeUploadFile(secondRequest)
+        assertEquals(SessionManager.sessionMap.size, 1)
+    }
+
+    fun createUploadFileRequest(sessionId : Long) : UploadFileRequest {
+        val inputStream: InputStream = javaClass.classLoader.getResourceAsStream("iris.arff")
+        val dataSource = ConverterUtils.DataSource(inputStream)
+        return UploadFileRequest(dataSource, sessionId, true)
     }
 }

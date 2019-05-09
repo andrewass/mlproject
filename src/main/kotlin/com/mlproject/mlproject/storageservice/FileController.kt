@@ -1,7 +1,7 @@
 package com.mlproject.mlproject.storageservice
 
-import com.mlproject.mlproject.datasource.UploadFileResponse
 import com.mlproject.mlproject.datasource.UploadFileRequest
+import com.mlproject.mlproject.datasource.UploadFileResponse
 import com.mlproject.mlproject.datasource.executeUploadFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -22,8 +22,8 @@ class FileController {
     fun handleFileUploadV2(@RequestParam("file") file: MultipartFile,
                            @RequestParam("sessionId") sessionId: Long,
                            @RequestParam("isTraining") isTraining: Boolean): UploadFileResponse {
-        val uploadFileRequest = UploadFileRequest(file, sessionId, isTraining)
-        val uploadFileResponse = executeUploadFile(uploadFileRequest, fileservice)
-        return uploadFileResponse
+        val dataSource = fileservice.createDataSource(file)
+        val uploadFileRequest = UploadFileRequest(dataSource, sessionId, isTraining)
+        return executeUploadFile(uploadFileRequest)
     }
 }
