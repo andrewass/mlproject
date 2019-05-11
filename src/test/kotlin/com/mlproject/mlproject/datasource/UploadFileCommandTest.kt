@@ -40,7 +40,7 @@ class UploadFileCommandTest {
 
     fun createUploadFileRequest(sessionId : Long) : UploadFileRequest {
         val inputStream: InputStream = javaClass.classLoader.getResourceAsStream("iris.arff")
-        val dataSource = ConverterUtils.DataSource(inputStream)
-        return UploadFileRequest(dataSource, sessionId, true)
+        val instances = ConverterUtils.DataSource(inputStream).dataSet
+        return UploadFileRequest(instances, sessionId, true)
     }
 }

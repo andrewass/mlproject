@@ -1,5 +1,5 @@
 package com.mlproject.mlproject.datasource
 
-import weka.core.converters.ConverterUtils
+import weka.core.Instances
 
-class UploadFileRequest(val dataSource: ConverterUtils.DataSource, val sessionId: Long, val isTraining: Boolean)
+class UploadFileRequest(val instances: Instances, val sessionId: Long, val isTraining: Boolean)

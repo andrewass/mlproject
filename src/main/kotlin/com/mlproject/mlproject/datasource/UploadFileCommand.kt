@@ -8,26 +8,24 @@ import org.springframework.http.ResponseEntity
 
 
 fun executeUploadFile(request: UploadFileRequest): UploadFileResponse {
-    val multiplier = 1000000000
-    val session: Session?
-    val createdInstances = request.dataSource.dataSet
-
-    if (request.sessionId == 0L) {
-        val newSessionId = (Math.random() * multiplier).toLong()
+    var session = SessionManager.sessionMap[request.sessionId]
+    if (session == null) {
+        var newSessionId: Long
+        val multiplier = 1000000000L
+        do {
+            newSessionId = (Math.random() * multiplier).toLong() + 1L
+        } while (SessionManager.sessionMap.containsKey(newSessionId))
         session = Session(newSessionId)
         SessionManager.sessionMap[newSessionId] = session
-    } else {
-        session = SessionManager.sessionMap[request.sessionId]
     }
 
-    session?.let {
-        session.trainingInstances = createdInstances
-        val attributeList = createdInstances.enumerateAttributes().toList()
-        for (i in 0 until attributeList.size) {
-            val trainingAttribute = TrainingAttribute(attributeList.get(i).name(), createdInstances.attributeStats(i))
-            session.trainingAttributes.add(trainingAttribute)
-        }
+    session.trainingInstances = request.instances
+    val attributeList = request.instances.enumerateAttributes().toList()
+    for (i in 0 until attributeList.size) {
+        val trainingAttribute = TrainingAttribute(attributeList.get(i).name(), request.instances.attributeStats(i))
+        session.trainingAttributes.add(trainingAttribute)
     }
-    return UploadFileResponse(session!!.trainingAttributes, session.sessionId, ResponseEntity(HttpStatus.OK))
+
+    return UploadFileResponse(session.trainingAttributes, session.sessionId, ResponseEntity(HttpStatus.OK))
 }
 

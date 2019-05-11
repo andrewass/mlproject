@@ -22,8 +22,8 @@ class FileController {
     fun handleFileUploadV2(@RequestParam("file") file: MultipartFile,
                            @RequestParam("sessionId") sessionId: Long,
                            @RequestParam("isTraining") isTraining: Boolean): UploadFileResponse {
-        val dataSource = fileservice.createDataSource(file)
-        val uploadFileRequest = UploadFileRequest(dataSource, sessionId, isTraining)
+        val instances = fileservice.retrieveInstances(file)
+        val uploadFileRequest = UploadFileRequest(instances, sessionId, isTraining)
         return executeUploadFile(uploadFileRequest)
     }
 }
