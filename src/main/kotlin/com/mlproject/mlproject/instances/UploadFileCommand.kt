@@ -1,7 +1,7 @@
 package com.mlproject.mlproject.instances
 
 import com.mlproject.mlproject.session.SessionManager
-import com.mlproject.mlproject.general.TrainingAttribute
+import com.mlproject.mlproject.misc.TrainingAttribute
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 

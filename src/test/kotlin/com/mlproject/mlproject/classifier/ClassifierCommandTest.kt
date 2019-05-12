@@ -1,13 +1,12 @@
-package com.mlproject.mlproject.classifier_manager
+package com.mlproject.mlproject.classifier
 
-import com.mlproject.mlproject.classifier_manager.classifier.NaiveBayesWrapper
-import com.mlproject.mlproject.session.SessionManager
-import org.aspectj.lang.annotation.Before
+import com.mlproject.mlproject.classifier.command.SetClassifierRequest
+import com.mlproject.mlproject.classifier.command.fetchAllClassifiers
+import com.mlproject.mlproject.classifier.command.setClassifierOnSession
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpStatus
 import weka.classifiers.bayes.NaiveBayes
 
 @SpringBootTest

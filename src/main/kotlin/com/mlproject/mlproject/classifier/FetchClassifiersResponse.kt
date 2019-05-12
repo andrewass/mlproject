@@ -1,3 +1,3 @@
-package com.mlproject.mlproject.classifier_manager
+package com.mlproject.mlproject.classifier
 
 class FetchClassifiersResponse(val classifierList : List<String>)

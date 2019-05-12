@@ -1,7 +1,4 @@
-package com.mlproject.mlproject.classifier_manager
-
-import com.mlproject.mlproject.classifier_manager.classifier.AbstractClassifierWrapper
-import com.mlproject.mlproject.classifier_manager.classifier.NaiveBayesWrapper
+package com.mlproject.mlproject.classifier
 
 object ClassifierUtility{
 
@@ -11,7 +8,7 @@ object ClassifierUtility{
         classifierMap[ClassifierType.NAIVE_BAYES] = NaiveBayesWrapper::class.java
     }
 
-    fun getClassifierWrapper(classifierName : String) : AbstractClassifierWrapper{
+    fun getClassifierWrapper(classifierName : String) : AbstractClassifierWrapper {
         val convertedName = classifierName.replace(' ','_').toUpperCase()
         val enumKey = ClassifierType.valueOf(convertedName)
         return classifierMap[enumKey]!!.newInstance()

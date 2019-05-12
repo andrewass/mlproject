@@ -1,4 +1,4 @@
-package com.mlproject.mlproject.general
+package com.mlproject.mlproject.misc
 
 import org.springframework.http.HttpStatus
 
