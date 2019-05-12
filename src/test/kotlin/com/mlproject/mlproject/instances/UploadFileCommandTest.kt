@@ -1,6 +1,6 @@
-package com.mlproject.mlproject.datasource
+package com.mlproject.mlproject.instances
 
-import com.mlproject.mlproject.general.SessionManager
+import com.mlproject.mlproject.session.SessionManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,18 +23,18 @@ class UploadFileCommandTest {
     fun shouldCreateNewSessionWhenNonePreviouslyExists() {
         assertEquals(SessionManager.sessionMap.size, 0)
 
-        executeUploadFile(firstFileRequest)
+        uploadFile(firstFileRequest)
 
         assertEquals(SessionManager.sessionMap.size, 1)
     }
 
     @Test
     fun shouldFetchPreviouslyCreatedSession() {
-        val uploadFileResponse = executeUploadFile(firstFileRequest)
+        val uploadFileResponse = uploadFile(firstFileRequest)
         assertEquals(SessionManager.sessionMap.size, 1)
 
         val secondRequest = createUploadFileRequest(uploadFileResponse.sessionId)
-        executeUploadFile(secondRequest)
+        uploadFile(secondRequest)
         assertEquals(SessionManager.sessionMap.size, 1)
     }
 

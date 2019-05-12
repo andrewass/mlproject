@@ -1,4 +1,4 @@
-package com.mlproject.mlproject.datasource
+package com.mlproject.mlproject.instances
 
 import weka.core.Instances
 

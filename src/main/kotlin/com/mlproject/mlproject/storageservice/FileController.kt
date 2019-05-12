@@ -1,8 +1,8 @@
 package com.mlproject.mlproject.storageservice
 
-import com.mlproject.mlproject.datasource.UploadFileRequest
-import com.mlproject.mlproject.datasource.UploadFileResponse
-import com.mlproject.mlproject.datasource.executeUploadFile
+import com.mlproject.mlproject.instances.UploadFileRequest
+import com.mlproject.mlproject.instances.UploadFileResponse
+import com.mlproject.mlproject.instances.uploadFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
@@ -24,6 +24,7 @@ class FileController {
                            @RequestParam("isTraining") isTraining: Boolean): UploadFileResponse {
         val instances = fileservice.retrieveInstances(file)
         val uploadFileRequest = UploadFileRequest(instances, sessionId, isTraining)
-        return executeUploadFile(uploadFileRequest)
+        return uploadFile(uploadFileRequest)
+
     }
 }
