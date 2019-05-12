@@ -1,3 +1,3 @@
-package com.mlproject.mlproject.classifier_manager
+package com.mlproject.mlproject.classifier
 
 class SetClassifierRequest(val sessionId : Long, val classifierName : String)

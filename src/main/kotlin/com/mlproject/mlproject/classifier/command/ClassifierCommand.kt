@@ -1,7 +1,6 @@
-package com.mlproject.mlproject.classifier_manager
+package com.mlproject.mlproject.classifier
 
 import com.mlproject.mlproject.session.SessionManager
-import org.springframework.http.HttpStatus
 
 
 fun setClassifierOnSession(request: SetClassifierRequest): SetClassifierResponse {
