@@ -1,5 +1,6 @@
 package com.mlproject.mlproject.classifier
 
+import com.mlproject.mlproject.classifier.classifiers.NaiveBayesWrapper
 import com.mlproject.mlproject.classifier.command.SetClassifierRequest
 import com.mlproject.mlproject.classifier.command.fetchAllClassifiers
 import com.mlproject.mlproject.classifier.command.setClassifierOnSession

@@ -1,4 +1,4 @@
-package com.mlproject.mlproject.classifier
+package com.mlproject.mlproject.classifier.classifiers
 
 import weka.classifiers.AbstractClassifier
 

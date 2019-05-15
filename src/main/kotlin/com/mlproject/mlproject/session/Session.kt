@@ -1,6 +1,6 @@
 package com.mlproject.mlproject.session
 
-import com.mlproject.mlproject.classifier.AbstractClassifierWrapper
+import com.mlproject.mlproject.classifier.classifiers.AbstractClassifierWrapper
 import com.mlproject.mlproject.misc.TrainingAttribute
 import weka.core.Instances
 import weka.core.TestInstances

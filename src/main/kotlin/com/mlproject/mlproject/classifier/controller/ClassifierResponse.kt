@@ -1,4 +1,3 @@
 package com.mlproject.mlproject.classifier.controller
 
-class ClassifierResponse {
-}
+class ClassifierResponse(val value : String, val label : String)

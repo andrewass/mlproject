@@ -1,5 +1,6 @@
 package com.mlproject.mlproject.classifier.controller
 
+import com.mlproject.mlproject.classifier.ClassifierUtility.convertToClassifierResponse
 import com.mlproject.mlproject.classifier.command.SetClassifierRequest
 import com.mlproject.mlproject.classifier.command.fetchAllClassifiers
 import com.mlproject.mlproject.classifier.command.setClassifierOnSession
@@ -21,9 +22,9 @@ class ClassifierController {
 
     @GetMapping("/get-classifiers")
     @CrossOrigin(origins = ["http://localhost:3000"])
-    fun getClassifiers() : FetchClassifiersReponse{
+    fun getClassifiers(): FetchClassifiersResponse {
         val response = fetchAllClassifiers()
-        return FetchClassifiersReponse(response.classifierList, HttpStatus.OK)
+        return FetchClassifiersResponse(convertToClassifierResponse(response.classifierList), HttpStatus.OK)
     }
 }
 

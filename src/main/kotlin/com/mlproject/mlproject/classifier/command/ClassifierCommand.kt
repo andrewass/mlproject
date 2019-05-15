@@ -13,8 +13,7 @@ fun setClassifierOnSession(request: SetClassifierRequest): SetClassifierResponse
     return SetClassifierResponse(session.sessionId, classifierWrapper)
 }
 
-fun fetchAllClassifiers() : FetchClassifiersResponse {
-    val classifierList = ClassifierType.values().toList().map {
-        it -> it.toString().replace('_',' ')}
+fun fetchAllClassifiers(): FetchClassifiersResponse {
+    val classifierList = ClassifierType.values().toList().map { it -> it.toString().replace('_', ' ') }
     return FetchClassifiersResponse(classifierList)
 }
