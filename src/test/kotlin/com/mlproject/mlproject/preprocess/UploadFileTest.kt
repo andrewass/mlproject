@@ -1,4 +1,4 @@
-package com.mlproject.mlproject.instances
+package com.mlproject.mlproject.preprocess
 
 import com.mlproject.mlproject.preprocess.command.UploadFileRequest
 import com.mlproject.mlproject.preprocess.command.uploadFile
@@ -11,7 +11,7 @@ import weka.core.converters.ConverterUtils
 import java.io.InputStream
 
 @SpringBootTest
-class UploadFileCommandTest {
+class UploadFileTest {
 
     lateinit var firstFileRequest: UploadFileRequest
 
@@ -37,7 +37,7 @@ class UploadFileCommandTest {
         assertEquals(SessionManager.sessionMap.size, 1)
     }
 
-    fun createUploadFileRequest(sessionId : Long) : UploadFileRequest {
+    fun createUploadFileRequest(sessionId: Long): UploadFileRequest {
         val inputStream: InputStream = javaClass.classLoader.getResourceAsStream("iris.arff")
         val instances = ConverterUtils.DataSource(inputStream).dataSet
         return UploadFileRequest(instances, sessionId, true)

@@ -6,6 +6,8 @@ import com.mlproject.mlproject.session.SessionManager
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import weka.core.Attribute
+import weka.filters.Filter
+import weka.filters.unsupervised.attribute.Remove
 
 
 fun uploadFile(request: UploadFileRequest): UploadFileResponse {
@@ -15,13 +17,16 @@ fun uploadFile(request: UploadFileRequest): UploadFileResponse {
     return UploadFileResponse(session.trainingAttributes, session.sessionId, ResponseEntity(HttpStatus.OK))
 }
 
-fun removeAttribute(request: RemoveAttributeRequest): RemoveAttributeResponse {
+fun removeAttributes(request: RemoveAttributeRequest): RemoveAttributeResponse {
     val session = SessionManager.getSession(request.sessionId)
-    val attributeList = session.trainingInstances.enumerateAttributes().toList()
-    request.attributeNameList.forEach {
-        val attributeIndex = findIndexOfGivenAttribute(attributeList, it)
-        session.trainingInstances.deleteAttributeAt(attributeIndex)
-    }
+    val attributeIndicesArrays = getAttributeIndicesArray(
+            session.trainingInstances.enumerateAttributes().toList(),
+            request.attributeNameList)
+    val removeFilter = Remove()
+    removeFilter.setAttributeIndicesArray(attributeIndicesArrays)
+    removeFilter.invertSelection= false
+    removeFilter.setInputFormat(session.trainingInstances)
+    session.trainingInstances = Filter.useFilter(session.trainingInstances, removeFilter)
     updateTrainingAttributesOnSession(session)
     return RemoveAttributeResponse(session.trainingAttributes, session.sessionId)
 }
@@ -35,12 +40,14 @@ private fun updateTrainingAttributesOnSession(session: Session) {
     }
 }
 
-private fun findIndexOfGivenAttribute(attributeList: List<Attribute>, attributeName: String): Int {
-    for(i in 0 until attributeList.size){
-        if(attributeName.equals(attributeList[i].name())){
-            return i;
+private fun getAttributeIndicesArray(attributeList: List<Attribute>, attributesToRemoveList: List<String>): IntArray {
+    val attributeSet = attributesToRemoveList.toSet();
+    val indicesList = mutableListOf<Int>()
+    for (i in 0 until attributeList.size) {
+        if (attributeSet.contains(attributeList[i].name())) {
+            indicesList.add(i);
         }
     }
-    return 0;
+    return indicesList.toIntArray();
 }
 

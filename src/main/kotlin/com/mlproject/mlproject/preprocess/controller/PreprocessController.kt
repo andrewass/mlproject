@@ -28,7 +28,7 @@ class PreprocessController {
     @CrossOrigin(origins = ["http://localhost:3000"])
     fun handleAttributeRemoval(@RequestBody request : RemoveAttributeRestRequest): RemoveAttributeRestResponse {
         val removeAttributeRequest = RemoveAttributeRequest(request.sessionId, request.attributeNameList)
-        val response = removeAttribute(removeAttributeRequest)
+        val response = removeAttributes(removeAttributeRequest)
         return RemoveAttributeRestResponse(response.trainingAttributes, response.sessionId, HttpStatus.OK)
     }
 }
