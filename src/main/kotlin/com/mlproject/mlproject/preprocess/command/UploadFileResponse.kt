@@ -1,4 +1,4 @@
-package com.mlproject.mlproject.instances
+package com.mlproject.mlproject.preprocess.command
 
 import com.mlproject.mlproject.misc.TrainingAttribute
 import org.springframework.http.HttpStatus
