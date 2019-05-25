@@ -1,13 +1,7 @@
-package com.mlproject.mlproject.preprocess
+package com.mlproject.mlproject.preprocess.command
 
-import com.mlproject.mlproject.preprocess.command.RemoveAttributeRequest
-import com.mlproject.mlproject.preprocess.command.UploadFileRequest
-import com.mlproject.mlproject.preprocess.command.removeAttributes
-import com.mlproject.mlproject.preprocess.command.uploadFile
-import com.mlproject.mlproject.session.Session
 import com.mlproject.mlproject.session.SessionManager
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -29,38 +23,38 @@ class RemoveAttributesTest {
     @Test
     fun shouldRemoveSpecifiedAttributesFromExistingInstances(){
         val session = SessionManager.getSession(sessionId)
-        val attributeCountBefore = session.trainingInstances.enumerateAttributes().toList().size
+        val attributeCountBefore = session.trainingInstances.numAttributes()
         val removeAttributeRequest = RemoveAttributeRequest(sessionId, listOf("sepalwidth","petalwidth" ))
         val response = removeAttributes(removeAttributeRequest)
-        assertEquals(session.trainingInstances.enumerateAttributes().toList().size, attributeCountBefore-2)
+        assertEquals(session.trainingInstances.numAttributes(), attributeCountBefore-2)
     }
 
     @Test
     fun shouldNotRemoveAttributesWhenSpecifiedAttributeNameDoesNotExist(){
         val session = SessionManager.getSession(sessionId)
-        val attributeCountBefore = session.trainingInstances.enumerateAttributes().toList().size
+        val attributeCountBefore = session.trainingInstances.numAttributes()
         val removeAttributeRequest = RemoveAttributeRequest(sessionId, listOf("non-existing"))
         val response = removeAttributes(removeAttributeRequest)
-        assertEquals(session.trainingInstances.enumerateAttributes().toList().size, attributeCountBefore)
+        assertEquals(session.trainingInstances.numAttributes(), attributeCountBefore)
     }
 
     @Test
     fun shouldNotRemoveAttributesWhenNoAttributesAreSpecified(){
         val session = SessionManager.getSession(sessionId)
-        val attributeCountBefore = session.trainingInstances.enumerateAttributes().toList().size
+        val attributeCountBefore = session.trainingInstances.numAttributes()
         val removeAttributeRequest = RemoveAttributeRequest(sessionId, emptyList())
         val response = removeAttributes(removeAttributeRequest)
-        assertEquals(session.trainingInstances.enumerateAttributes().toList().size, attributeCountBefore)
+        assertEquals(session.trainingInstances.numAttributes(), attributeCountBefore)
     }
 
     @Test
     fun shouldNotRemoveSpecifiedAttributesWhenTheyArePreviouslyRemoved(){
         val session = SessionManager.getSession(sessionId)
-        var attributeCountBefore = session.trainingInstances.enumerateAttributes().toList().size
+        var attributeCountBefore = session.trainingInstances.numAttributes()
         val removeAttributeRequest = RemoveAttributeRequest(sessionId, listOf("sepalwidth","petalwidth" ))
         removeAttributes(removeAttributeRequest)
         val response = removeAttributes(removeAttributeRequest)
-        assertEquals(session.trainingInstances.enumerateAttributes().toList().size, attributeCountBefore-2)
+        assertEquals(session.trainingInstances.numAttributes(), attributeCountBefore-2)
     }
 
     fun createUploadFileRequest(sessionId : Long) : UploadFileRequest {
@@ -68,6 +62,4 @@ class RemoveAttributesTest {
         val instances = ConverterUtils.DataSource(inputStream).dataSet
         return UploadFileRequest(instances, sessionId, true)
     }
-
-
 }

@@ -4,5 +4,4 @@ import com.mlproject.mlproject.misc.TrainingAttribute
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
-class UploadFileResponse(val attributes: List<TrainingAttribute>, val sessionId : Long,
-                         val responseCode: ResponseEntity<HttpStatus>)
+class UploadFileResponse(val attributes: List<TrainingAttribute>, val sessionId : Long)

@@ -1,7 +1,5 @@
-package com.mlproject.mlproject.preprocess
+package com.mlproject.mlproject.preprocess.command
 
-import com.mlproject.mlproject.preprocess.command.UploadFileRequest
-import com.mlproject.mlproject.preprocess.command.uploadFile
 import com.mlproject.mlproject.session.SessionManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

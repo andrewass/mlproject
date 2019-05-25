@@ -1,30 +1,25 @@
 package com.mlproject.mlproject.classifier.controller
 
-import com.mlproject.mlproject.classifier.ClassifierUtility.convertToClassifierResponse
-import com.mlproject.mlproject.classifier.command.SetClassifierRequest
+import com.mlproject.mlproject.classifier.classifiers.convertToClassifierResponse
 import com.mlproject.mlproject.classifier.command.fetchAllClassifiers
-import com.mlproject.mlproject.classifier.command.setClassifierOnSession
-import com.mlproject.mlproject.misc.RestResponse
+import com.mlproject.mlproject.classifier.command.runEvaluation
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class ClassifierController {
 
-    @PostMapping("/set-classifier")
-    @CrossOrigin(origins = ["http://localhost:3000"])
-    fun setClassifier(@RequestParam("sessionId") sessionId: Long,
-                      @RequestParam("classifier") classifier: String): RestResponse {
-        val request = SetClassifierRequest(sessionId, classifier)
-        val response = setClassifierOnSession(request)
-        return RestResponse(HttpStatus.OK)
-    }
-
     @GetMapping("/get-classifiers")
     @CrossOrigin(origins = ["http://localhost:3000"])
     fun getClassifiers(): FetchClassifiersResponse {
         val response = fetchAllClassifiers()
-        return FetchClassifiersResponse(convertToClassifierResponse(response.classifierList), HttpStatus.OK)
+        return FetchClassifiersResponse(response.classifierList, HttpStatus.OK)
+    }
+
+    @PostMapping("/evaluate")
+    @CrossOrigin(origins = ["http://localhost:3000"])
+    fun evaluate(@RequestBody request: EvaluateRequest): EvaluateRestResponse {
+            val evaluationSummary = runEvaluation(request)
+        return EvaluateRestResponse(evaluationSummary, HttpStatus.OK)
     }
 }
-

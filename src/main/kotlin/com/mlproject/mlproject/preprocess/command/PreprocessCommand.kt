@@ -14,7 +14,7 @@ fun uploadFile(request: UploadFileRequest): UploadFileResponse {
     val session = SessionManager.getSession(request.sessionId)
     session.trainingInstances = request.instances
     updateTrainingAttributesOnSession(session)
-    return UploadFileResponse(session.trainingAttributes, session.sessionId, ResponseEntity(HttpStatus.OK))
+    return UploadFileResponse(session.trainingAttributes, session.sessionId)
 }
 
 fun removeAttributes(request: RemoveAttributeRequest): RemoveAttributeResponse {
