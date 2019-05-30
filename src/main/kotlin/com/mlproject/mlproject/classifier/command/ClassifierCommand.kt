@@ -5,6 +5,7 @@ import com.mlproject.mlproject.classifier.classifiers.getClassifierWrapper
 import com.mlproject.mlproject.classifier.controller.EvaluateRequest
 import com.mlproject.mlproject.classifier.evaluation.CrossValidation
 import com.mlproject.mlproject.classifier.evaluation.getSelectedEvaluation
+import com.mlproject.mlproject.classifier.evaluation.setClassIndexOnInstances
 import com.mlproject.mlproject.session.SessionManager
 
 
@@ -17,7 +18,7 @@ fun fetchAllClassifiers(): FetchClassifiersResponse {
 
 fun runEvaluation(request: EvaluateRequest): String {
     val session = SessionManager.getSession(request.sessionId)
-    session.trainingInstances.setClassIndex(session.trainingInstances.numAttributes() - 1)
+    setClassIndexOnInstances(request.classAttribute, session.trainingInstances)
     val classifierWrapper = getClassifierWrapper(request.classifierName)
     val evaluationWrapper = getSelectedEvaluation(request.evaluationName, session.trainingInstances, classifierWrapper)
     if (evaluationWrapper is CrossValidation) {

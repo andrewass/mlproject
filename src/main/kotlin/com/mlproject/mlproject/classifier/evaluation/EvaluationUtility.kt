@@ -16,3 +16,9 @@ fun getSelectedEvaluation(
     return null
 }
 
+
+fun setClassIndexOnInstances(attributeName : String, instances: Instances){
+    val classAttribute = instances.enumerateAttributes().toList()
+            .first { it -> it.name().equals(attributeName)}
+    instances.setClassIndex(classAttribute.index())
+}
