@@ -11,15 +11,15 @@ import com.mlproject.mlproject.session.SessionManager
 
 fun fetchAllClassifiers(): FetchClassifiersResponse {
     val classifierList = ClassifierType.values().toList()
-            .map { it -> it.toString().replace('_', ' ') }
-            .map { it -> it.toLowerCase().capitalizeEachWord() }
+            .map { it.toString().replace('_', ' ') }
+            .map { it.toLowerCase().capitalizeEachWord() }
     return FetchClassifiersResponse(classifierList)
 }
 
 fun runEvaluation(request: EvaluateRequest): String {
     val session = SessionManager.getSession(request.sessionId)
     setClassIndexOnInstances(request.classAttribute, session.trainingInstances)
-    val classifierWrapper = getClassifierWrapper(request.classifierName)
+    val classifierWrapper = getClassifierWrapper(request.classifierName, session.trainingInstances)
     val evaluationWrapper = getSelectedEvaluation(request.evaluationName, session.trainingInstances, classifierWrapper)
     if (evaluationWrapper is CrossValidation) {
         return evaluationWrapper.runCrossValidation()
@@ -28,6 +28,5 @@ fun runEvaluation(request: EvaluateRequest): String {
 }
 
 private fun String.capitalizeEachWord() = this.split(' ')
-        .map { it -> it.capitalize() }
-        .joinToString(separator = " ")
+        .joinToString(separator = " ") { it.capitalize() }
 
