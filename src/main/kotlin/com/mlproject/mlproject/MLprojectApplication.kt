@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MlprojectApplication
+class MLprojectApplication
 
 fun main(args: Array<String>) {
-	runApplication<MlprojectApplication>(*args)
+	runApplication<MLprojectApplication>(*args)
 }
