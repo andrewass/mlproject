@@ -13,9 +13,9 @@ class UploadFileTest {
 
     val attributeCount = 5
     val instanceCount = 150;
+    val fileName = "iris.arff"
 
     lateinit var firstFileRequest: UploadFileRequest
-
 
     @BeforeEach
     fun setup() {
@@ -46,13 +46,19 @@ class UploadFileTest {
     private fun assertExpectedResponse(uploadFileResponse: UploadFileResponse){
         assertEquals(uploadFileResponse.attributes.size, attributeCount)
         assertEquals(uploadFileResponse.instances.size, instanceCount)
+        assertNotEquals(uploadFileResponse.sessionId, 0L)
+
         assertEquals(uploadFileResponse.instances[0].attributeNameList.size, attributeCount)
         assertEquals(uploadFileResponse.instances[0].attributeValueList.size, attributeCount)
-        assertNotEquals(uploadFileResponse.sessionId, 0L)
+        assertEquals(uploadFileResponse.instances[0].attributeNameList[0], "sepallength")
+        assertEquals(uploadFileResponse.instances[0].attributeNameList[1], "sepalwidth")
+        assertEquals(uploadFileResponse.instances[0].attributeNameList[2], "petallength")
+        assertEquals(uploadFileResponse.instances[0].attributeNameList[3], "petalwidth")
+        assertEquals(uploadFileResponse.instances[0].attributeNameList[4], "class")
     }
 
     private fun createUploadFileRequest(sessionId: Long): UploadFileRequest {
-        val inputStream: InputStream = javaClass.classLoader.getResourceAsStream("iris.arff")
+        val inputStream: InputStream = javaClass.classLoader.getResourceAsStream(fileName)
         val instances = ConverterUtils.DataSource(inputStream).dataSet
         return UploadFileRequest(instances, sessionId, true)
     }

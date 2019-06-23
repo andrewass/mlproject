@@ -29,6 +29,6 @@ class PreprocessController {
     fun handleAttributeRemoval(@RequestBody request : RemoveAttributeRestRequest): RemoveAttributeRestResponse {
         val removeAttributeRequest = RemoveAttributeRequest(request.sessionId, request.attributeNameList)
         val response = removeAttributes(removeAttributeRequest)
-        return RemoveAttributeRestResponse(response.trainingAttributes, response.sessionId, HttpStatus.OK)
+        return RemoveAttributeRestResponse(response.attributes, response.sessionId, HttpStatus.OK, response.instances)
     }
 }

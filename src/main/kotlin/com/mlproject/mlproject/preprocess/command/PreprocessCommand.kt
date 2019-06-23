@@ -9,7 +9,12 @@ import weka.core.Instances
 import weka.filters.Filter
 import weka.filters.unsupervised.attribute.Remove
 
-
+/**
+ * Populates instances and attributes from an Arff or CSV file
+ *
+ * @param   request containing the instances from the file
+ * @return  response containing a custom representation of the instances and attributes
+ */
 fun uploadFile(request: UploadFileRequest): UploadFileResponse {
     val session = SessionManager.getSession(request.sessionId)
     session.trainingInstances = request.instances
@@ -18,6 +23,12 @@ fun uploadFile(request: UploadFileRequest): UploadFileResponse {
     return UploadFileResponse(session.trainingAttributes, customInstances, session.sessionId)
 }
 
+/**
+ * Removing selected attributes from the instances stored on the session
+ *
+ * @param request containing a list of attributes to be removed
+ * @return response containing a custom representation of the instances and attributes
+ */
 fun removeAttributes(request: RemoveAttributeRequest): RemoveAttributeResponse {
     val session = SessionManager.getSession(request.sessionId)
     val attributeIndicesArrays = getAttributeIndicesArray(
@@ -29,7 +40,8 @@ fun removeAttributes(request: RemoveAttributeRequest): RemoveAttributeResponse {
     removeFilter.setInputFormat(session.trainingInstances)
     session.trainingInstances = Filter.useFilter(session.trainingInstances, removeFilter)
     updateTrainingAttributesOnSession(session)
-    return RemoveAttributeResponse(session.trainingAttributes, session.sessionId)
+    val customInstance = getListOfCustomInstances(session.trainingInstances, session.trainingAttributes)
+    return RemoveAttributeResponse(session.trainingAttributes, customInstance, session.sessionId)
 }
 
 private fun updateTrainingAttributesOnSession(session: Session) {
