@@ -46,5 +46,4 @@ class RunEvaluationTest {
         SessionManager.sessionMap[SESSION_ID] = session
         return session
     }
-
 }
