@@ -9,15 +9,16 @@ fun getSelectedEvaluation(
         instances: Instances,
         classifierWrapper: AbstractClassifierWrapper): AbstractEvaluationWrapper? {
     val convertedEvaluationName = evaluationOption.replace(' ', '_').toUpperCase()
-    return when (EvaluationType.valueOf(convertedEvaluationName)) {
-        EvaluationType.CROSS_VALIDATION -> CrossValidation(classifierWrapper, instances)
-        else -> null
+    val enumKey = EvaluationType.valueOf(convertedEvaluationName)
+    when (enumKey) {
+        EvaluationType.CROSS_VALIDATION -> return CrossValidation(classifierWrapper, instances)
     }
+    return null
 }
 
 
 fun setClassIndexOnInstances(attributeName : String, instances: Instances){
     val classAttribute = instances.enumerateAttributes().toList()
-            .first { it.name().equals(attributeName)}
+            .first { it -> it.name().equals(attributeName)}
     instances.setClassIndex(classAttribute.index())
 }

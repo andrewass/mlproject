@@ -44,9 +44,6 @@ fun removeAttributes(request: RemoveAttributeRequest): RemoveAttributeResponse {
     return RemoveAttributeResponse(session.trainingAttributes, customInstance, session.sessionId)
 }
 
-/**
- * @param
- */
 private fun updateTrainingAttributesOnSession(session: Session) {
     val attributeList = session.trainingInstances.enumerateAttributes().toList()
     session.trainingAttributes.clear()
